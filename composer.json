@@ -1,0 +1,23 @@
+{
+    "name": "zanozik/cdnjs",
+    "description": "Install, update, manage and test CDNjs assets",
+    "require": {
+        "php": ">=5.6.4",
+        "illuminate/support": "^5.1|^5.2|^5.3",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ZanoZik",
+            "email": "zanozik@gmail.com",
+            "homepage": "https://github.com/zanozik",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Zanozik\\Cdnjs\\": "src/"
+        }
+    }
+}
