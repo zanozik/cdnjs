@@ -3,10 +3,9 @@
     <form method="post" action="{{route('asset.update', [$asset->id])}}" class="modal-content">
         @if($asset['exists']) {{method_field('PATCH')}} @endif
         {{csrf_field()}}
-        <input type="hidden" name="new_version">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">New library</h4>
+            <h4 class="modal-title">@lang('cdnjs.new_library')</h4>
             <div class="repo"></div>
             <div class="description"></div>
             <div class="author"></div>
@@ -14,66 +13,85 @@
         <div class="modal-body">
             <div class="row">
                 <div class="form-group col-sm-4 col-xs-12">
-                    <label for="library">library</label>
+                    <label for="library">@lang('cdnjs.library')</label>
                     <select id="library" name="library" required>
                         <option>{{$asset->library}}</option>
                     </select>
                 </div>
                 <div class="form-group col-sm-2 col-xs-12">
-                    <label for="latest_version">latest version</label>
+                    <label for="latest_version">@lang('cdnjs.latest_version')</label>
                     <input id="latest_version" name="latest_version" value="{{$asset->latest_version}}" class="form-control" readonly>
                 </div>
                 <div class="form-group col-sm-2 col-xs-12">
-                    <label for="current_version">current version</label>
+                    <label for="current_version">@lang('cdnjs.current_version')</label>
                     <select id="current_version" name="current_version" class="select2" required>
-                        <option disabled>First, select a library</option>
+                        <option disabled>@lang('cdnjs.select_library')</option>
                     </select>
                 </div>
                 <div class="form-group col-sm-4 col-xs-12">
-                    <label for="file">file</label>
+                    <label for="file">@lang('cdnjs.file')</label>
                     <select id="file" name="file" class="select2" required>
-                        <option disabled>First, select a library</option>
+                        <option disabled>@lang('cdnjs.select_library')</option>
                     </select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-sm-4 col-xs-12">
-                    <label for="name">name</label>
+                    <label for="name">@lang('cdnjs.name')</label>
                     <input {{$asset->name ? 'readonly' : 'id=name'}} name="name" value="{{$asset->name}}" class="form-control" required>
-                    <p class="help-block">Feel free to change this to whatever you want, just make sure it's unique!</p>
+                    @if(!$asset->exists)
+                        <p class="help-block">@lang('cdnjs.name_helpblock')</p>
+                    @endif
                 </div>
                 <div class="form-group col-sm-4 col-xs-12">
-                    <label for="version_mask_check">check</label>
-                    <select id="version_mask_check" name="version_mask_check" class="select2">
-                        @foreach($masks as $key=>$value)
-                            <option value="{{$key}}" {{$asset->version_mask_check == $key ? 'selected' : ''}}>{{$value}}</option>
-                        @endforeach
-                    </select>
-                    <p class="help-block">We can periodically check for a newer version of this library and inform you if it changed inside the version scope you define here.</p>
+                    <label for="version_mask_check">@lang('cdnjs.check')</label>
+                    <select id="version_mask_check" name="version_mask_check" class="select2"></select>
+                    <p class="help-block">@lang('cdnjs.check_helpblock')</p>
                 </div>
                 <div class="form-group col-sm-4 col-xs-12">
-                    <label for="version_mask_autoupdate">autoupdate</label>
-                    <select id="version_mask_autoupdate" name="version_mask_autoupdate" class="select2">
-                        @foreach($masks as $key=>$value)
-                            <option value="{{$key}}" {{$asset->version_mask_autoupdate == $key ? 'selected' : ''}}>{{$value}}</option>
-                        @endforeach
-                    </select>
-                    <p class="help-block">We can autoupdate to a newer version when we found one, inside the version scope you define here.</p>
+                    <label for="version_mask_autoupdate">@lang('cdnjs.autoupdate')</label>
+                    <select id="version_mask_autoupdate" name="version_mask_autoupdate" class="select2"></select>
+                    <p class="help-block">@lang('cdnjs.autoupdate_helpblock')</p>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">@lang('cdnjs.close')</button>
+            <button type="submit" class="btn btn-primary">@lang('cdnjs.submit')</button>
         </div>
     </form>
 </div>
 <script>
     $(document).ready(function(){
 
+        var options = [
+                @foreach(trans('cdnjs.masks') as $key=>$value)
+            {
+                id: '{{$key}}', text: '{{$value}}'
+            },
+            @endforeach
+        ];
+
+        var mask_check = parseInt({{$asset->version_mask_check}}) || 0;
+        var mask_autoupdate = parseInt({{$asset->version_mask_autoupdate}}) || 0;
+
         $('.select2').select2({
             width: '100%'
         });
+
+        $('#version_mask_check').select2({
+            width: '100%',
+            data: options
+        }).change(function () {
+            mask_check = $(this).val();
+            $('#version_mask_autoupdate').html('').select2({
+                width: '100%',
+                data: options.filter(function (option) {
+                    return (mask_check > 0 && mask_check <= option.id) || option.id == 0
+                })
+            }).val(mask_check == 0 || mask_autoupdate < mask_check ? 0 : mask_autoupdate).trigger('change');
+        }).val(mask_check).trigger('change');
+
 
         $('#library').select2({
             width: '100%',

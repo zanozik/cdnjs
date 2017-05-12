@@ -1,10 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>cdnjs Asset Manager</title>
+    <title>@lang('cdnjs.title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     @cdnjs(bootstrap-css|select2-css)
+    {{--
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
+     --}}
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 </head>
 <body>
@@ -20,6 +24,15 @@
     }
     .form-control{
         height: 28px;
+    }
+
+    .btn-group {
+        display: flex;
+        white-space: nowrap;
+    }
+
+    .btn-group .btn {
+        float: none;
     }
 
     .doc-type {
@@ -74,7 +87,7 @@
         z-index: 999;
         height: 2em;
         width: 70px;
-        overflow: show;
+        overflow: visible;
         margin: auto;
         top: 0;
         left: 0;
@@ -131,16 +144,30 @@
     <div class="row">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <div class="navbar-header"><span class="navbar-brand">cdnjs Asset Manager</span></div>
+                <div class="navbar-header"><span class="navbar-brand">@lang('cdnjs.title')</span></div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><button data-path="{{route('asset.create')}}" class="btn btn-sm" data-toggle="modal" data-target="#modal">Add new asset</button></li>
+                    <li>
+                        <button data-path="{{route('asset.create')}}" class="btn btn-sm" data-toggle="modal"
+                                data-target="#modal">@lang('cdnjs.add_new')</button>
+                    </li>
                 </ul>
             </div>
         </nav>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
-                <tr><th>type</th><th>name</th><th>library</th><th>latest version</th><th>new version</th><th>current version</th><th>file</th><th>version check</th><th>autoupdate</th><th>action</th></tr>
+                <tr>
+                    <th>@lang('cdnjs.type')</th>
+                    <th>@lang('cdnjs.name')</th>
+                    <th>@lang('cdnjs.library')</th>
+                    <th>@lang('cdnjs.latest_version')</th>
+                    <th>@lang('cdnjs.new_version')</th>
+                    <th>@lang('cdnjs.current_version')</th>
+                    <th>@lang('cdnjs.file')</th>
+                    <th>@lang('cdnjs.version_check')</th>
+                    <th>@lang('cdnjs.autoupdate')</th>
+                    <th>@lang('cdnjs.action')</th>
+                </tr>
                 </thead>
                 <tbody>
                     @if($assets->count())
@@ -150,23 +177,44 @@
                                 <td>{{$asset->name}}</td>
                                 <td>{{$asset->library}}</td>
                                 <td>{{$asset->latest_version}}</td>
-                                <td>{{$asset->new_version}}</td>
+                                <td>
+                                    {{$asset->new_version}}<br>
+                                    @if($asset->new_version)
+                                        <form method="post" action="{{route('asset.update', [$asset->id])}}"
+                                              class="form">
+                                            {{csrf_field()}}{{method_field('PATCH')}}
+                                            <div class="btn-group" role="group" aria-label="...">
+                                                <button type="submit" name="testing" value="{{$asset->testing ? 0 : 1}}"
+                                                        class="btn btn-xs btn-warning">{{$asset->testing ? trans('cdnjs.undo') : trans('cdnjs.test')}}</button>
+                                                <button type="submit" name="current_version"
+                                                        value="{{$asset->new_version}}"
+                                                        class="btn btn-xs btn-success">@lang('cdnjs.update')</button>
+                                            </div>
+                                        </form>
+                                    @endif
+                                </td>
                                 <td>{{$asset->current_version}}</td>
                                 <td><a href="{{config('cdnjs.url.ajax')}}{{$asset->library}}/{{$asset->current_version}}/{{$asset->file}}">{{$asset->file}}</a></td>
-                                <td>{{$masks[$asset->version_mask_check]}}</td>
-                                <td>{{$masks[$asset->version_mask_autoupdate]}}</td>
+                                <td>{{trans('cdnjs.masks.' . $asset->version_mask_check)}}</td>
+                                <td>{{trans('cdnjs.masks.' . $asset->version_mask_autoupdate)}}</td>
                                 <td>
-                                    <form method="post" action="{{route('asset.delete', [$asset->id])}}" class="form pull-right">
+
+                                    <form method="post" action="{{route('asset.delete', [$asset->id])}}" class="form">
                                         {{csrf_field()}}{{method_field('DELETE')}}
-                                        @if($asset->new_version)<a href="{{route('asset.test', [$asset->id])}}" class="btn btn-xs btn-warning">{{$asset->testing ? 'Stop testing' : 'Test new version'}}</a>@endif
-                                        <button type="button" data-path="{{route('asset.edit', [$asset->id])}}" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal">Edit</button>
-                                        <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                                        <div class="btn-group" role="group" aria-label="...">
+                                            <button type="button" data-path="{{route('asset.edit', [$asset->id])}}"
+                                                    class="btn btn-xs btn-primary" data-toggle="modal"
+                                                    data-target="#modal">@lang('cdnjs.edit')</button>
+                                            <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                                        </div>
                                     </form>
                                 </td>
                             </tr>
                         @endforeach
                     @else
-                        <tr><td colspan="8" class="text-center">You have no assets</td></tr>
+                        <tr>
+                            <td colspan="8" class="text-center">@lang('cdnjs.no_assets')</td>
+                        </tr>
                     @endif
                 </tbody>
             </table>
@@ -175,6 +223,11 @@
 </div>
 <div id="modal" class="modal fade" role="dialog"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
 @cdnjs(jquery|bootstrap-js|select2-js)
+{{--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+ --}}
 <script>
     $(document).ready(function() {
         $('#modal').on('show.bs.modal', function (e) {
