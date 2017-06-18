@@ -1,4 +1,10 @@
 # CDNjs Asset Manager
+[![Latest Version on Packagist][ico-version]][link-packagist]
+
+[![Packagist Downloads][downloads-packagist]][link-packagist]
+[![Github Downloads][downloads-github]][link-github]
+
+[![Software License][ico-license]](LICENSE)
 
 CDNjs asset manager helps you to install, update, manage and test CDNjs assets in your Laravel app. It uses Blade directive to include an appropriate asset in your template, by an alias you define. All assets are stored in database and cached on the first request indefinitely.
 
@@ -124,12 +130,15 @@ You can add more middlewares by an array, if you need to, like this:
 ## Usage
 
 ### Manager
+
 Click on *Add new asset* and search for desired library by entering partial keyword in *Type* select search box
 on opened modal.
+
 ![Screenshot](http://i.imgur.com/BVU2B6L.png)
 
 Choose desired version and asset, your custom alias (name) to call from your templates,
 default will be generated for you. If you want to use version check, choose *Version check* and *Autoupdate* masks.
+
 ![Screenshot](http://i.imgur.com/E0Q8UbR.png)
 
 *Autoupdate mask* cannot be wider than *Version check mask*.
@@ -144,8 +153,8 @@ The package will also fire predefined `Events`.
 ## Handling events
 
 The package can fire two events:
-* `Events\NewAssetVersion`
-* `Events\AssetVersionUpdated`
+* `\Zanozik\Cdnjs\Events\NewAssetVersion`
+* `\Zanozik\Cdnjs\Events\AssetVersionUpdated`
 
 The package will pass `Asset` collection to each `Event`.
 
@@ -212,11 +221,24 @@ Use `@cdnjs-url(asset4)` when you want to output only URL of defined asset.
 ## Important notes
 
 If you fear you will break cdnjs Asset Manager functionality by changing default assets, 
-override `cdnjs` directive in published `index.blade.php` (override tags have been preset for you).
+override `cdnjs` directives in published `index.blade.php` (appropriate HTML tags have been preset for you).
 
-Assets table is being automatically cached and flushed, so if you made some manual changes,
+Assets collection is being automatically cached and flushed, so if you made some manual changes,
 don't forget to clear views and cache:
 ```
 php artisan cache:clear
 php artisan view:clear
 ```
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/zanozik/cdnjs.svg
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+
+[link-packagist]: https://packagist.org/packages/zanozik/cdnjs
+[link-github]: https://github.com/zanozik/cdnjs
+
+[downloads-packagist]: https://img.shields.io/packagist/dt/zanozik/cdnjs.svg
+[downloads-github]: https://img.shields.io/github/downloads/zanozik/cdnjs/total.svg
