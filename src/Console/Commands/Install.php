@@ -41,7 +41,7 @@ class Install extends Command
         ]);
         //migrating assets table to db
         $this->call('migrate', [
-            '--path' => '/packages/zanozik/cdnjs/src/database/migrations'
+            '--path' => '/vendor/zanozik/cdnjs/src/database/migrations'
         ]);
         //seeding asset table with sample assets for manager frontend
         $this->call('db:seed', [
