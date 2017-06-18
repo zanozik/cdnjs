@@ -49,10 +49,12 @@ class CdnjsServiceProvider extends ServiceProvider
             $router->get('assets/{asset}/test', 'Http\Controllers\CdnjsController@test')->name('asset.test');
         });
 
-        /* On-demand persistent asset caching. We will flush it when we need to! */
-        Cache::rememberForever('assets', function () {
-            return Asset::orderBy('name')->get();
-        });
+        if (Schema::hasTable('assets')) {
+            /* On-demand persistent asset caching. We will flush it when we need to! */
+            Cache::rememberForever('assets', function () {
+                return Asset::orderBy('name')->get();
+            });
+        }
 
         /**
          * Custom blade directive for printing automatically chosen html asset tags.
