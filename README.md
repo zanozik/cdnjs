@@ -232,7 +232,7 @@ php artisan view:clear
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/zanozik/cdnjs.svg
+[ico-version]: https://img.shields.io/github/release/zanozik/cdnjs/all.svg
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 
 [link-packagist]: https://packagist.org/packages/zanozik/cdnjs
