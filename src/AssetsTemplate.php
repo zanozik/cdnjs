@@ -30,15 +30,15 @@ class AssetsTemplate
 
                 switch ($asset->type) {
                     case 'js':
-                        $print .= '<script src="' . $asset_url . '"></script>';
+                        $print .= '<script src="' . $asset_url . '"></script>' . PHP_EOL;
                         break;
                     case 'css':
-                        $print .= '<link rel="stylesheet" href="' . $asset_url . '" />';
+                        $print .= '<link rel="stylesheet" href="' . $asset_url . '" />' . PHP_EOL;
                         break;
                 }
 
             } else {
-                $print .= '<script>console.error("CDNJS: Your named library `' . $name . '` was not found in your database!")</script>';
+                $print .= '<script>console.error("CDNJS: Your named library `' . $name . '` was not found in your database!")</script>' . PHP_EOL;
             }
         }
 

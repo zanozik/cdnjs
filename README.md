@@ -63,8 +63,14 @@ Publishing assets and running migration is easy:
 ```
 php artisan package:install
 ```
-This will create `assets` table, seed it with sample data, which is used to render cdnjs Asset manager, as example,
-copy `cdnjs.php` config and language files (English, by default), blade templates for your convenience.
+This will do all of the following:
+
+* Create `assets` table in your database,
+* Seed it with sample data (used to render cdnjs Asset manager, as example)
+* Create `config/cdnjs.php` configuration file
+* Create `resources/lang/en/cdnjs.php` English language file
+* Create `resources/view/vendor/cdnjs/index.php` and `resources/view/vendor/cdnjs/edit.php`
+  CDNjs Asset Manager blade template files for your convenience.
 
 ## Configuration
 
@@ -198,8 +204,9 @@ The package provides two blade directives:
 * `@cdnjs`
 * `cdnjs-url`
 
-Use `@cdnjs(asset1|asset2|asset3)` when you want to output HTML assets in you blade template,
-`@cdnjs-url(asset4)` will output only URL of defined asset, in case you want a special HTML tag for it.
+Use `@cdnjs(asset1|asset2|asset3)` when you want to output HTML assets in you blade template.
+
+Use `@cdnjs-url(asset4)` when you want to output only URL of defined asset.
 
 
 ## Important notes
