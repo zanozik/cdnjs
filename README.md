@@ -1,9 +1,7 @@
 # CDNjs Asset Manager
 [![Latest Version on Packagist][ico-version]][link-packagist]
-
 [![Packagist Downloads][downloads-packagist]][link-packagist]
 [![Github Downloads][downloads-github]][link-github]
-
 [![Software License][ico-license]](LICENSE)
 
 CDNjs asset manager helps you to install, update, manage and test CDNjs assets in your Laravel app. It uses Blade directive to include an appropriate asset in your template, by an alias you define. All assets are stored in database and cached on the first request indefinitely.
