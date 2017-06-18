@@ -48,11 +48,10 @@ And you will get an output like this:
 
 Require the package by running in your console:
 ```
-composer require zanozik/cdnjs
-composer update
+composer require zanozik/cdnjs:dev-master
 ```
 
-After updating composer, add `Zanozik\Cdnjs\CdnjsServiceProvider::class` to the `providers` array:
+Add `Zanozik\Cdnjs\CdnjsServiceProvider::class` to the end of the `providers` array:
 ```
 // config/app.php
 'providers' => [
