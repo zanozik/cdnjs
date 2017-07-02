@@ -4,7 +4,7 @@
     <title>@lang('cdnjs.title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    @cdnjs(bootstrap-css|select2-css)
+    {{cdnjs(['bootstrap-css','select2-css'])}}
     {{--
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css">
@@ -222,7 +222,7 @@
     </div>
 </div>
 <div id="modal" class="modal fade" role="dialog"><div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div></div>
-@cdnjs(jquery|bootstrap-js|select2-js)
+{{cdnjs(['jquery','bootstrap-js','select2-js'])}}
 {{--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>

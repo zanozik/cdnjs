@@ -112,7 +112,8 @@ class VersionCheck
     /**
      * Comparing version to a current version according to defined mask
      *
-     * @param $version
+     * @param string $version
+     *
      * @return bool Breaking from foreach
      */
     private static function compare($version)

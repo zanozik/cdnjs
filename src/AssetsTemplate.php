@@ -5,45 +5,72 @@ class AssetsTemplate
     /**
      * Converting blade directive into html tags
      *
-     * @param string $names Asset names separated by pipe `|`
-     * @param bool $url If name should be converted to URL, instead of a html tag
+     * @param string $string Asset names separated by pipe `|`
+     *
      * @return string Html tags
      */
-    public function convert($names, $url = false)
+    public function explodeAndOutput($string)
     {
+        $string = preg_replace('/\s+/', '', $string); // cleaning the string from all whitespaces
+        $names = array_filter(explode('|', $string)); // converting to array with non-empty elements
 
-        $print = '';
+        return $this->output($names);
+    }
 
-        $names = preg_replace('/\s+/', '', $names); // cleaning the string from all whitespaces
-        $names = array_filter(explode('|', $names)); // "converting" to array with non-empty elements
+    /**
+     * Output asset names as html tags
+     *
+     * @param array|string $names Asset names array or string if only URL is needed
+     *
+     * @return string Html tags
+     */
+    public function output($names)
+    {
+        if (!$names) return false;
 
-        foreach ($names as $name) {
-            $asset = cache('assets')->where('name', $name)->first();
+        $output = '';
 
-            if ($asset) {
-                $asset_url = config('cdnjs.url.ajax') . $asset->library . '/' . ($asset->testing ? $asset->new_version : $asset->current_version) . '/' . $asset->file;
+        if (is_array($names)) {
 
-                if ($url) {
-                    $print .= $asset_url;
-                    break;
-                }
-
-                switch ($asset->type) {
-                    case 'js':
-                        $print .= '<script src="' . $asset_url . '"></script>' . PHP_EOL;
-                        break;
-                    case 'css':
-                        $print .= '<link rel="stylesheet" href="' . $asset_url . '" />' . PHP_EOL;
-                        break;
-                }
-
-            } else {
-                $print .= '<script>console.error("CDNJS: Your named library `' . $name . '` was not found in your database!")</script>' . PHP_EOL;
+            foreach ($names as $name) {
+                $output .= $this->getOutputString($name);
             }
+
+        } else {
+            $output = $this->getOutputString($names, true);
         }
 
-        return $print;
+        return $output;
+    }
 
+    private function getOutputString($name, $url = false)
+    {
+        $asset = cache('assets')->where('name', $name)->first();
+
+        if ($asset) {
+            $asset_url = config('cdnjs.url.ajax') . $asset->library . '/' . ($asset->testing ? $asset->new_version : $asset->current_version) . '/' . $asset->file;
+        } else {
+            return $url ? '' : '<script>console.error("CDNJS: Your named library `' . $name . '` was not found in your database!")</script>' . PHP_EOL;
+        }
+
+        if ($url) {
+            return $asset_url;
+        } else {
+            $this->wrapHtmlTags($asset_url, $asset->type);
+        }
+
+    }
+
+    private function wrapHtmlTags($asset_url, $type)
+    {
+        switch ($type) {
+            case 'js':
+                return '<script src="' . $asset_url . '"></script>' . PHP_EOL;
+            case 'css':
+                return '<link rel="stylesheet" href="' . $asset_url . '" />' . PHP_EOL;
+        }
+
+        return '';
     }
 
 }

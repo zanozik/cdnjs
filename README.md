@@ -4,9 +4,9 @@
 [![Github Downloads][downloads-github]][link-github]
 [![Software License][ico-license]](LICENSE)
 
-CDNjs asset manager helps you to install, update, manage and test CDNjs assets in your Laravel app. It uses Blade directive to include an appropriate asset in your template, by an alias you define. All assets are stored in database and cached on the first request indefinitely.
+CDNjs Asset Manager helps you install, update, manage and test CDNjs assets in your Laravel app. It uses custom helper `cdnjs()` and Blade directive (depreciated!) to include appropriate assets in your template by an alias you define. All assets are stored in database and cached on the first request indefinitely.
 
-Front-end of the manager lets you add, edit, update and test assets, fetching them directly from CDNjs. You can also set up a scheduler to check for (and even update to) new version of the asset, according to version mask you define.
+Front-end of the manager lets you add, edit, update and test assets, fetching them directly from CDNjs. You can also set up a scheduler to automatically check for (and even update to) new version of the asset, according to version mask you define.
 
 ## Examples
 
@@ -15,13 +15,19 @@ You can add something like this in your blade template or partial:
 <html>
 <body>
     <head>
-        <-- include css assets -->
+        <!-- include css assets with helper-->
+        {{cdnjs(['bootstrap-css','select2-css'])}}
+
+        <!-- OR Blade directive (DEPRECIATED) -->
         @cdnjs(bootstrap-css|select2-css)
     </head>
     
 ......
 
     <!-- include js assets -->
+    {{cdnjs(['jquery','bootstrap-js','select2-js'])}}
+    
+    <!-- OR Blade directive (DEPRECIATED) -->
     @cdnjs(jquery|bootstrap-js|select2-js)
 </body>
 </html>
@@ -85,7 +91,7 @@ Change to desired time for daily version check and autoupdate (assign `false` if
 ```
 	/*
 	|--------------------------------------------------------------------------
-	| Daily version update check time (HH:ss)
+	| Daily version update check time (H:i)
 	|--------------------------------------------------------------------------
 	|
 	*/
@@ -136,6 +142,7 @@ on opened modal.
 
 Choose desired version and asset, your custom alias (name) to call from your templates,
 default will be generated for you. If you want to use version check, choose *Version check* and *Autoupdate* masks.
+Make sure you configured you cron scheduler correctly, if you want to use version checks (refer to[Task Scheduling](https://laravel.com/docs/5.4/scheduling) on Laravel website)
 
 ![Screenshot](http://i.imgur.com/E0Q8UbR.png)
 
@@ -154,9 +161,9 @@ The package can fire two events:
 * `\Zanozik\Cdnjs\Events\NewAssetVersion`
 * `\Zanozik\Cdnjs\Events\AssetVersionUpdated`
 
-The package will pass `Asset` collection to each `Event`.
+The package will pass `Asset` collection with each `Event`.
 
-You can listen for and catch these events any way you want (read further on Laravel docs, [Events](https://laravel.com/docs/5.4/events)).
+You can listen for and catch these events any way you want (read further about[Events](https://laravel.com/docs/5.4/events) on Laravel website).
 
 #### Example:
 
@@ -192,7 +199,7 @@ class NewVersionListener
 
 ```
  You may run `php artisan make:listener NewVersionListener --event="\Zanozik\Cdnjs\Events\NewAssetVersion"`) in your console instead
- (Coming soon... [maybe](https://github.com/laravel/framework/pull/19660))
+ (New feature, already in [laravel:master](https://github.com/laravel/framework/pull/19660))
 
 And register that listener in your `$listen` array:
 ```
@@ -205,7 +212,16 @@ And register that listener in your `$listen` array:
 
 ```
 
-### Blade templates
+### Helper function
+
+The package provides custom helper function:
+* `cdnjs()`
+
+Use an array as a function variable, eg. `cdnjs(['asset1', 'asset2', 'asset3'])`, when you want to output HTML assets in you blade template.
+
+Use a string as a function variable, eg. `cdnjs('asset4')`, when you want to output only URL of defined asset.
+
+### Blade templates (DEPRECIATED)
 
 The package provides two blade directives:
 * `@cdnjs`
@@ -219,7 +235,7 @@ Use `@cdnjs-url(asset4)` when you want to output only URL of defined asset.
 ## Important notes
 
 If you fear you will break cdnjs Asset Manager functionality by changing default assets, 
-override `cdnjs` directives in published `index.blade.php` (appropriate HTML tags have been preset for you).
+override `cdnjs` functions in published `index.blade.php` (appropriate HTML tags have been preset for you).
 
 Assets collection is being automatically cached and flushed, so if you made some manual changes,
 don't forget to clear views and cache:

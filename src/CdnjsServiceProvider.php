@@ -58,24 +58,26 @@ class CdnjsServiceProvider extends ServiceProvider
         }
 
         /**
-         * Custom blade directive for printing automatically chosen html asset tags.
-         * Expects one or more asset names, separated by pipe `|`.
-         * Will be loaded in the same order you provide.
+         * DEPRECIATED! Custom blade directive for printing automatically chosen html asset tags.
          *
-         * @param  string $names
+         * @param  string $names Asset names
+         *
          * @return string
          */
 
         Blade::directive('cdnjs', function ($names) {
-            return (new AssetsTemplate)->convert($names);
+            return (new AssetsTemplate)->explodeAndOutput($names);
         });
         /**
-         * Another custom blade directive for printing a single URL of the asset. Will take single (or first) name.
+         * DEPRECIATED! Another custom blade directive for printing a single URL of the asset.
          *
+         * @param  string $name Asset name
+         *
+
          * @return string
          */
         Blade::directive('cdnjs-url', function ($name) {
-            return (new AssetsTemplate)->convert($name, true);
+            return (new AssetsTemplate)->output($name);
 
         });
 
