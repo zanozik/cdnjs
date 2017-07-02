@@ -53,12 +53,7 @@ class AssetsTemplate
             return $url ? '' : '<script>console.error("CDNJS: Your named library `' . $name . '` was not found in your database!")</script>' . PHP_EOL;
         }
 
-        if ($url) {
-            return $asset_url;
-        } else {
-            $this->wrapHtmlTags($asset_url, $asset->type);
-        }
-
+        return $url ? $asset_url : $this->wrapHtmlTags($asset_url, $asset->type);
     }
 
     private function wrapHtmlTags($asset_url, $type)
