@@ -1,5 +1,5 @@
 <?php return [
-    'masks' => ['Off', 'Any version', 'Subversions', 'Minor version only'],
+    'masks' => ['Off', 'Any version', 'Subversion', 'Minor version only'],
     'title' => 'cdnjs Asset Manager',
     'add_new' => 'Add new asset',
     'type' => 'Type',
@@ -17,10 +17,10 @@
     'test' => 'Test',
     'update' => 'Update',
     'edit' => 'Edit',
+    'delete' => 'Delete',
     'no_assets' => 'You have no assets',
     'new_library' => 'New library',
     'select_library' => 'First, select a library',
-    'name' => 'Name',
     'name_helpblock' => 'Feel free to change this to whatever you want, just make sure it\'s unique!',
     'check' => 'Check',
     'check_helpblock' => 'We can periodically check for a newer version of this library and inform you if it changed inside the version scope you define here.',

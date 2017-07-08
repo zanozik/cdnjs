@@ -205,7 +205,7 @@
                                             <button type="button" data-path="{{route('asset.edit', [$asset->id])}}"
                                                     class="btn btn-xs btn-primary" data-toggle="modal"
                                                     data-target="#modal">@lang('cdnjs.edit')</button>
-                                            <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-xs btn-danger">@lang('cdnjs.delete')</button>
                                         </div>
                                     </form>
                                 </td>
