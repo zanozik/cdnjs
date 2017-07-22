@@ -43,8 +43,8 @@ class CdnjsServiceProvider extends ServiceProvider
         $router->group($group, function ($router) {
             $router->resource('assets', 'Http\Controllers\CdnjsController', [
                 'names' => [
-                    'index' => 'asset.index', 'create' => 'asset.create', 'edit' => 'asset.edit',
-                    'update' => 'asset.update', 'destroy' => 'asset.delete',
+                    'index' => 'assets.index', 'create' => 'assets.create', 'edit' => 'assets.edit',
+                    'update' => 'assets.update', 'destroy' => 'asset.delete',
                 ],
             ]);
             $router->get('assets/{asset}/test', 'Http\Controllers\CdnjsController@test')->name('asset.test');

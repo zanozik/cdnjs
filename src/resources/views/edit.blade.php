@@ -1,6 +1,6 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>
-    <form method="post" action="{{route('asset.update', [$asset->id])}}" class="modal-content">
+    <form method="post" action="{{route('assets.update', [$asset->id])}}" class="modal-content">
         @if($asset['exists']) {{method_field('PATCH')}} @endif
         {{csrf_field()}}
         <div class="modal-header">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group col-sm-2 col-xs-12">
                     <label for="latest_version">@lang('cdnjs.latest_version')</label>
-                    <input id="latest_version" name="latest_version" value="{{$asset->latest_version}}" class="form-control" readonly>
+                    <input id="latest_version" name="latest_version" type="text" value="{{$asset->latest_version}}" class="form-control" readonly>
                 </div>
                 <div class="form-group col-sm-2 col-xs-12">
                     <label for="current_version">@lang('cdnjs.current_version')</label>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="form-group col-sm-4 col-xs-12">
                     <label for="name">@lang('cdnjs.name')</label>
-                    <input {{$asset->name ? 'readonly' : 'id=name'}} name="name" value="{{$asset->name}}" class="form-control" required>
+                    <input {{$asset->name ? 'readonly' : 'id=name'}} name="name" type="text" value="{{$asset->name}}" class="form-control" required>
                     @if(!$asset->exists)
                         <p class="help-block">@lang('cdnjs.name_helpblock')</p>
                     @endif

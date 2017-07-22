@@ -147,7 +147,7 @@
                 <div class="navbar-header"><span class="navbar-brand">@lang('cdnjs.title')</span></div>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <button data-path="{{route('asset.create')}}" class="btn btn-sm" data-toggle="modal"
+                        <button data-path="{{route('assets.create')}}" class="btn btn-sm" data-toggle="modal"
                                 data-target="#modal">@lang('cdnjs.add_new')</button>
                     </li>
                 </ul>
@@ -180,7 +180,7 @@
                                 <td>
                                     {{$asset->new_version}}<br>
                                     @if($asset->new_version)
-                                        <form method="post" action="{{route('asset.update', [$asset->id])}}"
+                                        <form method="post" action="{{route('assets.update', [$asset->id])}}"
                                               class="form">
                                             {{csrf_field()}}{{method_field('PATCH')}}
                                             <div class="btn-group" role="group" aria-label="...">
@@ -202,7 +202,7 @@
                                     <form method="post" action="{{route('asset.delete', [$asset->id])}}" class="form">
                                         {{csrf_field()}}{{method_field('DELETE')}}
                                         <div class="btn-group" role="group" aria-label="...">
-                                            <button type="button" data-path="{{route('asset.edit', [$asset->id])}}"
+                                            <button type="button" data-path="{{route('assets.edit', [$asset->id])}}"
                                                     class="btn btn-xs btn-primary" data-toggle="modal"
                                                     data-target="#modal">@lang('cdnjs.edit')</button>
                                             <button type="submit" class="btn btn-xs btn-danger">@lang('cdnjs.delete')</button>

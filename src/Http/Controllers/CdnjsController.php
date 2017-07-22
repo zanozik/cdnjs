@@ -33,7 +33,7 @@ class CdnjsController extends Controller
         $type = pathinfo($request->file, PATHINFO_EXTENSION);
         Asset::create(array_merge($request->all(), compact('type')));
         cache()->forget('assets');
-        return redirect()->route('asset.index');
+        return redirect()->route('assets.index');
     }
 
     public function update(Request $request, Asset $asset)
@@ -47,14 +47,14 @@ class CdnjsController extends Controller
         $asset->update($data);
         cache()->forget('assets');
         Artisan::call('view:clear');
-        return redirect()->route('asset.index');
+        return redirect()->route('assets.index');
     }
 
     public function destroy(Asset $asset)
     {
         $asset->delete();
         cache()->forget('assets');
-        return redirect()->route('asset.index');
+        return redirect()->route('assets.index');
     }
 
     public function test(Asset $asset)
@@ -63,7 +63,7 @@ class CdnjsController extends Controller
         $asset->save();
         cache()->forget('assets');
         Artisan::call('view:clear');
-        return redirect()->route('asset.index');
+        return redirect()->route('assets.index');
     }
 
 }
