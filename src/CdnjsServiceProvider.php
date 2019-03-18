@@ -76,7 +76,7 @@ class CdnjsServiceProvider extends ServiceProvider
 
          * @return string
          */
-        Blade::directive('cdnjs-url', function ($name) {
+        Blade::directive('cdnjs_url', function ($name) {
             return (new AssetsTemplate)->output($name);
 
         });
