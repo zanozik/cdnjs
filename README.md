@@ -18,7 +18,7 @@ You can add something like this in your blade template or partial:
         <!-- include css assets with helper-->
         {!! cdnjs(['bootstrap-css','select2-css']) !!}
 
-        <!-- OR Blade directive (DEPRECIATED) -->
+        <!-- OR Blade directive (DEPRECATED) -->
         @cdnjs(bootstrap-css|select2-css)
     </head>
     
@@ -27,7 +27,7 @@ You can add something like this in your blade template or partial:
     <!-- include js assets -->
     {!! cdnjs(['jquery','bootstrap-js','select2-js']) !!}
     
-    <!-- OR Blade directive (DEPRECIATED) -->
+    <!-- OR Blade directive (DEPRECATED) -->
     @cdnjs(jquery|bootstrap-js|select2-js)
 </body>
 </html>
@@ -222,15 +222,15 @@ NOTE: you have to use unescaped Blade tags `{!! cdnjs() !!}` in your templates.
 
 Use a string as a function variable, eg. `cdnjs('asset4')`, when you want to get only URL of defined asset.
 
-### Blade templates (DEPRECIATED)
+### Blade templates (DEPRECATED)
 
 The package provides two blade directives:
 * `@cdnjs`
-* `cdnjs-url`
+* `cdnjs_url`
 
 Use `@cdnjs(asset1|asset2|asset3)` when you want to output HTML assets in you blade template.
 
-Use `@cdnjs-url(asset4)` when you want to output only URL of defined asset.
+Use `@cdnjs_url(asset4)` when you want to output only URL of defined asset.
 
 
 ## Important notes
